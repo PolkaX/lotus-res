@@ -177,12 +177,13 @@ RETRIEVAL t02190@12D3KooWEK9HuJtMQeujFnFtrHc41dSgW3vf1ifQmcXw4Kqvuq76-0.00000000
 # RETRIEVAL <miner>@<miner peerId>-<deal funds>-<size>
 ### 检索出文件
 ```
+```
 ./lotus client retrieve bafkreihvzt6x34ersllpu23dskieuzvtmwnz3pqxd6deesyqysflm5zosu ./test.txt
 Success
 ```
 现在这一步有问题，虽然返回状态是成功，但是文件是空的，官方正在解决这个问题
 
-##在lotus节点搭建过程中，根据官方推荐顺便搭建了一个监控台，可以实时监控展示节点与链的运行状态。
+## 在lotus节点搭建过程中，根据官方推荐顺便搭建了一个监控台，可以实时监控展示节点与链的运行状态。
 
 ### 环境依赖
 - go (1.13 or higher)
