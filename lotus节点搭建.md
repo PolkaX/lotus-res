@@ -139,15 +139,56 @@ Proving Period: Not Proving
 Sectors:  map[Total:0]
 ```
 ## 存储挖矿
+### 添加一个文件
+```
+#lotus client import ./hello.txt
+bafkreifn3m3jpuezd67x6vkzf6wosxsootuslcaofmalxtnh72u6lxx644
+```
+### 查看本地的文件
+```
+#lotus client local
+bafkreifn3m3jpuezd67x6vkzf6wosxsootuslcaofmalxtnh72u6lxx644 work/code/lotus/hello.txt 17 ok
+```
+### 查看所有可以存储数据的矿工
+```
+#./lotus state list-miners
+# ./lotus state list-miners | wc -l //统计矿工数量
+```
+### 向某个矿工询问报价
+```
+# ./lotus client query-ask t02190
+Ask: t02190
+Price per GigaByte: 0.0000000005
+```
+### 存储文件
+```
+./lotus client deal bafkreihvzt6x34ersllpu23dskieuzvtmwnz3pqxd6deesyqysflm5zosu t02190 0.000005 300
+bafyreihdzndfdwq3lokthihmjfbl4llwnvau7he3pqhdhnedzarofmzb4e： 成功返回交易id
+WARN  main  lotus/main.go:72  routing: not found ： 表示矿工离线
+WARN  main  lotus/main.go:72  failed to start deal: computing commP failed: generating CommP: Piece must be at least 127 bytes： 表示存储文件大小小于127字节
+```
+
 ## 检索挖矿
+### 根据DataId查找文件
+```
+./lotus client find bafkreihvzt6x34ersllpu23dskieuzvtmwnz3pqxd6deesyqysflm5zosu
+LOCAL
+RETRIEVAL t02190@12D3KooWEK9HuJtMQeujFnFtrHc41dSgW3vf1ifQmcXw4Kqvuq76-0.000000000000001292fil-646b
+# RETRIEVAL <miner>@<miner peerId>-<deal funds>-<size>
+### 检索出文件
+```
+./lotus client retrieve bafkreihvzt6x34ersllpu23dskieuzvtmwnz3pqxd6deesyqysflm5zosu ./test.txt
+Success
+```
+现在这一步有问题，虽然返回状态是成功，但是文件是空的，官方正在解决这个问题
 
-在lotus节点搭建过程中，根据官方推荐顺便搭建了一个监控台，可以实时监控展示节点与链的运行状态。
+##在lotus节点搭建过程中，根据官方推荐顺便搭建了一个监控台，可以实时监控展示节点与链的运行状态。
 
-## 环境依赖
+### 环境依赖
 - go (1.13 or higher)
 - docker
 - docker-compose
-## 准备工作
+
 ### grafana
 
 [grafana](https://grafana.com/docs/installation/debian/): 用来实时展示状态，可以根据需求自由定制
