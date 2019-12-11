@@ -175,8 +175,9 @@ WARN  main  lotus/main.go:72  failed to start deal: computing commP failed: gene
 LOCAL
 RETRIEVAL t02190@12D3KooWEK9HuJtMQeujFnFtrHc41dSgW3vf1ifQmcXw4Kqvuq76-0.000000000000001292fil-646b
 # RETRIEVAL <miner>@<miner peerId>-<deal funds>-<size>
-### 检索出文件
 ```
+
+### 检索出文件
 ```
 ./lotus client retrieve bafkreihvzt6x34ersllpu23dskieuzvtmwnz3pqxd6deesyqysflm5zosu ./test.txt
 Success
