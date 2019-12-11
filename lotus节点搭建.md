@@ -123,7 +123,20 @@ Done!
 
 你可以通过下面的方式查看矿工信息：
 ```sh
-lotus-storage-miner info
+~/work/code/lotus$ ./lotus-storage-miner info
+Miner: t02190
+Sector Size: 256.0 MiB
+Power: 0.0 B / 2.79 TiB (0.0000%)
+Worker use:
+	Local: 0 / 4 (+1 reserved)
+	Remote: 0 / 0
+Queues:
+	AddPiece: 0
+	PreCommit: 0
+	Commit: 0
+	Unseal: 0
+Proving Period: Not Proving
+Sectors:  map[Total:0]
 ```
 ## 存储挖矿
 ## 检索挖矿
