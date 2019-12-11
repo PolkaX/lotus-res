@@ -78,31 +78,49 @@ lotus-storage-miner init --actor=t0571 --owner=t3uzr65jmr2hwzr7uu2irf6uclrqytmw2
 下面是执行过程，主要是获取用于生成 PoSts的参数到本地(/var/tmp/filecoin-proof-parameters)，这个过程根据网络情况可能花费若干小时。
 **如果这一步不成功，翻墙试试**
 ```
-./lotus-storage-miner init --actor=t0571 --owner=t3uzr65jmr2hwzr7uu2irf6uclrqytmw2utmn4hyop56yqmci2pxejitpoxara2kdsfvsraxdcjgfdopfbhs5q
-2019-11-14T15:53:08.952+0800	INFO	main	lotus-storage-miner/init.go:59	Initializing lotus storage miner
-2019-11-14T15:53:08.952+0800	INFO	main	lotus-storage-miner/init.go:61	Checking proof parameters
-2019-11-14T15:53:08.954+0800	INFO	build	build/paramfetch.go:113	Parameter file /var/tmp/filecoin-proof-parameters/v15-proof-of-spacetime-rational-535d1050e3adca2a0dfe6c3c0c4fa12097c9a7835fb969042f82a507b13310e0.vk is ok
-2019-11-14T16:08:41.054+0800	INFO	build	build/paramfetch.go:113	Parameter file /var/tmp/filecoin-proof-parameters/v15-stacked-proof-of-replication-967b11bb59be11b7dc6f2b627520ba450a3aa50846dbbf886cb8b735fe25c4e7.vk is ok
-2019-11-14T16:08:41.054+0800	INFO	build	build/paramfetch.go:113	Parameter file /var/tmp/filecoin-proof-parameters/v15-stacked-proof-of-replication-d01cd22091627b721c60a3375b5219af653fb9f6928c70aa7400587d396bc07a.vk is ok
- 391.00 MiB / 391.00 MiB [========================================================================] 100.00% 2.12 MiB/s 3m4s
-2019-11-14T16:11:48.278+0800	INFO	build	build/paramfetch.go:130	Fetching /var/tmp/filecoin-proof-parameters/v15-stacked-proof-of-replication-0c0b444c6f31d11c8e98003cc99a3b938db26b77a296d4253cda8945c234266d.params from https://ipfs.io/ipfs/
- 776.12 MiB / 3.30 GiB [================>-------------------------------------------------------]  22.95% 1.73 MiB/s 25m03s
- 2019-11-15T10:13:06.295+0800	INFO	main	lotus-storage-miner/init.go:66	Checking if repo exists
-2019-11-15T10:13:06.317+0800	INFO	main	lotus-storage-miner/init.go:82	Trying to connect to full node RPC
-2019-11-15T10:13:06.811+0800	INFO	main	lotus-storage-miner/init.go:91	Checking full node version
-2019-11-15T10:13:06.918+0800	INFO	main	lotus-storage-miner/init.go:102	Initializing repo
-2019-11-15T10:13:06.919+0800	INFO	repo	repo/fsrepo.go:98	Initializing repo at '/home/fy/.lotusstorage'
-2019-11-15T10:13:07.079+0800	INFO	main	lotus-storage-miner/init.go:131	Initializing libp2p identity
+:~/work/code/lotus$ ./lotus-storage-miner init --actor=t02190 --owner=t3sd74srma7kxlhexhfboawuxrgfxzs66ti3kre3khldubde5q2odgn35omveo5qxtry4qmly7o72dcwjhkxya
+2019-12-11T10:43:44.326+0800	INFO	main	lotus-storage-miner/init.go:80	Initializing lotus storage miner
+2019-12-11T10:43:44.336+0800	INFO	main	lotus-storage-miner/init.go:84	Checking proof parameters
+2019-12-11T10:43:44.339+0800	INFO	build	build/paramfetch.go:121	Parameter file /var/tmp/filecoin-proof-parameters/v20-proof-of-spacetime-election-512f5e6dc00a37fa13c8b0e468188f85957b7bf1ab36d17fb9fe9ed49ae8d657.vk is ok
+ 734.39 MiB / 734.39 MiB [=====================================================================================================================] 100.00% 4.14 MiB/s 2m57s
+2019-12-11T10:46:43.476+0800	INFO	build	build/paramfetch.go:121	Parameter file /var/tmp/filecoin-proof-parameters/v20-proof-of-spacetime-election-6c7cbfe7eed40b6c0b23a213a70648770aed65d9ca03ae85451573c18532304b.params is ok
+2019-12-11T10:46:43.476+0800	INFO	build	build/paramfetch.go:138	Fetching /var/tmp/filecoin-proof-parameters/v20-stacked-proof-of-replication-f571ee2386f4c65a68e802747f2d78691006fc81a67971c4d9641403fffece16.params from https://ipfs.io/ipfs/
+2019-12-11T10:46:43.476+0800	INFO	build	build/paramfetch.go:156	GET https://ipfs.io/ipfs/QmSAHu14Pe8iav6BYCt9XkpHJ73XM7tcpY4d9JK9BST9HU
+ 4.87 GiB / 4.87 GiB [========================================================================================================================] 100.00% 4.93 MiB/s 16m50s
+2019-12-11T11:03:46.497+0800	INFO	build	build/paramfetch.go:121	Parameter file /var/tmp/filecoin-proof-parameters/v20-stacked-proof-of-replication-f571ee2386f4c65a68e802747f2d78691006fc81a67971c4d9641403fffece16.params is ok
+2019-12-11T11:03:46.497+0800	INFO	main	lotus-storage-miner/init.go:89	Trying to connect to full node RPC
+2019-12-11T11:03:46.610+0800	INFO	main	lotus-storage-miner/init.go:98	Checking full node sync status
+Worker 0: Target: [bafy2bzacecruhzwqyz7ics4rowftdfqps6z4xnvjopc45fkxsm56mxstamqe2]      State: message sync     Height: 0
+Done!
+2019-12-11T11:03:46.809+0800	INFO	main	lotus-storage-miner/init.go:106	Checking if repo exists
+2019-12-11T11:03:46.822+0800	INFO	main	lotus-storage-miner/init.go:122	Checking full node version
+2019-12-11T11:03:46.837+0800	INFO	main	lotus-storage-miner/init.go:133	Initializing repo
+2019-12-11T11:03:46.837+0800	INFO	repo	repo/fsrepo.go:97	Initializing repo at '/home/fy/.lotusstorage'
+2019-12-11T11:03:47.038+0800	INFO	main	lotus-storage-miner/init.go:330	Initializing libp2p identity
+2019-12-11T11:03:48.140+0800	INFO	badger	badger@v1.6.0-rc1/logger.go:46	All 0 tables opened in 0s
 
-...
+2019-12-11T11:03:48.543+0800	INFO	main	lotus-storage-miner/init.go:490	Waiting for message: bafy2bzacebt7fprsbkxbqynloklsowmsoezijvxc3l2z57wz7t5rjzalmjvyi
+2019-12-11T11:05:04.931+0800	INFO	main	lotus-storage-miner/init.go:416	Created new storage miner: t02190
+2019-12-11T11:05:05.977+0800	INFO	main	lotus-storage-miner/init.go:206	Storage miner successfully created, you can now start it with 'lotus-storage-miner run'
 
 ```
-我在这一步等待了很久无返回，Ctrl+C也无法结束进程，等待这一步成功之后
+在这一步等待很久，等待这一步成功之后
 
 运行矿工，开始挖矿：
 ```sh
-lotus-storage-miner run
+# lotus-storage-miner run
+019-12-11T11:05:48.275+0800	INFO	main	lotus-storage-miner/run.go:66	Checking full node sync status
+Worker 0: Target: [bafy2bzacea2qx4gqmilsx2vbxzdridygw4up4yxrordusm4bewewik2vxhx3q]      State: complete Height: 15777
+Done!
+2019-12-11T11:05:48.370+0800	INFO	badger	badger@v1.6.0-rc1/logger.go:46	All 1 tables opened in 0s
+2019-12-11T11:05:48.612+0800	INFO	badger	badger@v1.6.0-rc1/logger.go:46	Replaying file id: 0 at offset: 98
+2019-12-11T11:05:48.612+0800	INFO	badger	badger@v1.6.0-rc1/logger.go:46	Replay took: 12.758µs
+2019-12-11T11:05:48.613+0800	INFO	p2pnode	lp2p/addrs.go:114	Swarm listening at: [/ip4/127.0.0.1/tcp/44665 /ip4/192.168.1.220/tcp/44665 /ip4/192.168.0.102/tcp/44665 /ip4/172.17.0.1/tcp/44665 /ip6/::1/tcp/35677]
+2019-12-11T11:05:48.642+0800	INFO	build	build/paramfetch.go:121	Parameter file /var/tmp/filecoin-proof-parameters/v20-stacked-proof-of-replication-117839dacd1ef31e5968a6fd13bcd6fa86638d85c40c9241a1d07c2a954eb89b.vk is ok
+ 661.70 MiB / 5.29 GiB [==============>-------------------------------------------------------------------------------------------------------]  12.22% 5.22 MiB/s 15m07s2019-12-11T11:07:56.154+0800	INFO	basichost	basic/natmgr.go:96	DiscoverNAT error:no NAT found
+ 866.09 MiB / 5.29 GiB [==================>---------------------------------------------------------------------------------------------------]  15.99% 5.18 MiB/s 14m37s
 ```
+
 你可以通过下面的方式查看矿工信息：
 ```sh
 lotus-storage-miner info
