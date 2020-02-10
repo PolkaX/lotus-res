@@ -120,6 +120,7 @@ $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus-storage-miner run --nosync --api 20001
 ```
 [注]：默认端口被占用，需要指定端口。
+
 查看算力：
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus-storage-miner info
@@ -142,19 +143,19 @@ Sectors:  map[Total:0]
 此时新增的第二个矿工没有算力， 我们需要向t01002矿工存储一些数据，t01002矿工才可以拥有算力。
 
 #### 7. 存储文件
-添加一个文件（文件必须大于256字节,小于初始化时设置的扇区大小）
+添加一个文件（文件必须大于256字节,小于初始化时设置的扇区大小）:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client import ./hello.txt
 bafkreifragqmiyh5qxh23iqra552xf54j5f4zlocjw5uqqhfo4llcdckqa
 ```
-向某个矿工询价，在这里我们要往t01002矿工存储数据
+向某个矿工询价，在这里我们要往t01002矿工存储数据:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client query-ask t01002
 Ask: t01002
 Price per GiB: 0.0000000005
 
 ```
-发起一笔存储交易
+发起一笔存储交易:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client deal bafkreifragqmiyh5qxh23iqra552xf54j5f4zlocjw5uqqhfo4llcdckqa t01002 0.000005 300
 bafyreibddlukjniptmsxmre7ygnqqu6em6uisdreywyilg2ev2diej34aq
@@ -162,7 +163,7 @@ bafyreibddlukjniptmsxmre7ygnqqu6em6uisdreywyilg2ev2diej34aq
 [注意]：虽然查询的每字节价格是0.0000000005，但是实际付款时价格需要高出一点，否则交易会执行失败。
 
 存储交易被矿工执行以后，会经历一下几个状态：
-打包
+打包:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus-storage-miner info
 Miner: t01002
@@ -205,11 +206,11 @@ Sectors:  map[Packing:0 Proving:1 Total:1]
 * 当扇区密封并成功上链之后矿工获得算力就可以参与出块*
 
 #### 9. 检索数据
-通过cid查找数据在哪里存，及大小等信息
+通过cid查找数据在哪里存，及大小等信息:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus client find bafyreibddlukjniptmsxmre7ygnqqu6em6uisdreywyilg2ev2diej34aq
 ```
-找回数据
+找回数据:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus client retrieve bafkreifgxbfutlcrbfnwpk5gx6o5of4mpleqvbkt5thphvbnsg6mnasp3q back.tx
 ```
