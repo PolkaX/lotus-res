@@ -2,18 +2,19 @@
 本篇讲解如何启动一个本地测试网络并创建新矿工，刷脏数据提升新矿工算力，扩充新矿工的存储。
 ### 搭建多个矿工节点的测试网
 #### 从单节点测试网添加节点
-1. 编译debug版本的二进制
+filecoin 官方提供了一个单节点[搭建教程](https://docs.lotu.sh/en+setup-local-dev-net)，以下操作过程是在官方单节点搭建教程基础上做的扩展
+#### 1. 编译debug版本的二进制
 
 ```
 make debug
 ```
 
-2. 初始化第一个存储节点的扇区
+#### 2. 初始化第一个存储节点的扇区
 
 ```
 $ ./lotus-seed --sectorbuilder-dir=/home/fy/work/node/local-lotus/storage1 pre-seal --sector-size 1024 --num-sectors 2
 ```
-3. 启动两个lotus节点
+#### 3. 启动两个lotus节点
 
 ```
 ./lotus --repo=/home/fy/work/node/local-lotus/lotus1 daemon --lotus-make-random-genesis=dev.gen --genesis-presealed-sectors=/home/fy/work/node/local-lotus/storage1/pre-seal-t0101.json --bootstrap=false --api 30000
@@ -22,7 +23,7 @@ $ ./lotus-seed --sectorbuilder-dir=/home/fy/work/node/local-lotus/storage1 pre-s
 ```
 此时两个lotus节点并没有互相链接,我们需要使用命令查询其中一个节点的bootnodes，然后用另一个节点连接他。
 
-4. 查看其中一个节点的监听地址,使用命令是另一个节点连接上它。
+#### 4. 查看其中一个节点的监听地址,使用命令是另一个节点连接上它。
 
 ```
 $ ./lotus --repo=/home/fy/work/node/local-lotus/lotus1 net listen
@@ -45,7 +46,7 @@ connect 12D3KooWJbv5t4h7PSEk7TYKWYqYB1fzcFKfuwLkmNwwLdd96jep: success
 ```
 如果能个确保前面的几步都操作无误，这条日志是说与网络中其他链不是同一个genesis
 
-5. 初始化并启动第一个创世矿工，t0101是代码中默认的矿工，网络启动就有算力
+#### 5. 初始化并启动第一个创世矿工，t0101是代码中默认的矿工，网络启动就有算力
 初始化矿工：
 ```
 env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus-storage-miner init --genesis-miner --actor=t0101 --pre-sealed-sectors=/home/fy/work/node/local-lotus/storage1 --nosync=true --sector-size=1024
@@ -103,7 +104,7 @@ t3qmkputiskghjga4jw7vyuwxvwjq4xzdspqs2q7muddzn27bakstanpbgyeipwfarvj4btbe2e6mqhc
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus send t3qmkputiskghjga4jw7vyuwxvwjq4xzdspqs2q7muddzn27bakstanpbgyeipwfarvj4btbe2e6mqhc5jm5fq 10000
 ```
-6. 创建第二个矿工
+#### 6. 创建第二个矿工
 
 创建并初始化一个新矿工：
 ```
@@ -140,7 +141,7 @@ Sectors:  map[Total:0]
 ```
 此时新增的第二个矿工没有算力， 我们需要向t01002矿工存储一些数据，t01002矿工才可以拥有算力。
 
-7. 存储文件
+#### 7. 存储文件
 添加一个文件（文件必须大于256字节,小于初始化时设置的扇区大小）
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client import ./hello.txt
@@ -203,7 +204,7 @@ Sectors:  map[Packing:0 Proving:1 Total:1]
     
 * 当扇区密封并成功上链之后矿工获得算力就可以参与出块*
 
-9. 检索数据
+#### 9. 检索数据
 通过cid查找数据在哪里存，及大小等信息
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus client find bafyreibddlukjniptmsxmre7ygnqqu6em6uisdreywyilg2ev2diej34aq
@@ -214,4 +215,4 @@ $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/
 ```
 ### 以上过程演示了如何一步步搭建测试网络，接下来是官方测试网启动脚本
 #### 使用官方提供的脚本
-1. 官方也提供了脚本 lotus/scripts/init-network.shs
+#### 1. 官方也提供了脚本 lotus/scripts/init-network.shs
