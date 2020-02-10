@@ -216,4 +216,5 @@ $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/
 ```
 ### 以上过程演示了如何一步步搭建测试网络，接下来是官方测试网启动脚本
 #### 使用官方提供的脚本
-#### 1. 官方也提供了脚本 lotus/scripts/init-network.shs
+#### 1. 官方也提供了脚本 [lotus/scripts/init-network.sh](https://github.com/filecoin-project/lotus/blob/master/scripts/init-network.sh)
+官方脚本搭建过程的逻辑是直接生成包含多个矿工的genesis文件来创建多个矿工。详细的步骤可以参考脚本
