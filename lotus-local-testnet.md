@@ -9,10 +9,11 @@ filecoin 官方提供了一个单节点[搭建教程](https://docs.lotu.sh/en+se
 make debug
 ```
 
-#### 2. 初始化第一个存储节点的扇区
+#### 2. 初始化存储节点的扇区
 
 ```
 $ ./lotus-seed --sectorbuilder-dir=/home/fy/work/node/local-lotus/storage1 pre-seal --sector-size 1024 --num-sectors 2
+$ ./lotus-seed --sectorbuilder-dir=/home/fy/work/node/local-lotus/storage2 pre-seal --sector-size 1024 --num-sectors 2
 ```
 #### 3. 启动两个lotus节点
 
@@ -21,7 +22,7 @@ $ ./lotus-seed --sectorbuilder-dir=/home/fy/work/node/local-lotus/storage1 pre-s
 
 ./lotus --repo=/home/fy/work/node/local-lotus/lotus2 daemon --api 30001 --genesis-presealed-sectors=/home/fy/work/node/local-lotus/storage1/pre-seal-t0101.json --bootstrap=false
 ```
-此时两个lotus节点并没有互相链接,我们需要使用命令查询其中一个节点的bootnodes，然后用另一个节点连接他。
+此时两个lotus节点并没有互相连接,我们需要使用命令查询其中一个节点的bootnodes，然后用另一个节点连接他。
 
 #### 4. 查看其中一个节点的监听地址,使用命令是另一个节点连接上它。
 
@@ -40,13 +41,13 @@ $ ./lotus --repo=/home/fy/work/node/local-lotus/miner2 net connect /ip4/127.0.0.
 connect 12D3KooWJbv5t4h7PSEk7TYKWYqYB1fzcFKfuwLkmNwwLdd96jep: success
 ```
 
-[注]. 在第6步和第7步会看到日志打印：
+[注]：在第3步和第4步会看到日志打印：
 ```
 2020-02-1 T17:52:47.177+0800	WARN	hello	hello/hello.go:78	other peer has different genesis! (bafy2bzaceaxm23epjsmh75yvzcecsrbavlmkcxnva66bkdebdcnyw3bjrc74u)
 ```
-如果能个确保前面的几步都操作无误，这条日志是说与网络中其他链不是同一个genesis
+在这里指的是与网络中发现的其他链不是同一个genesis
 
-#### 5. 初始化并启动第一个创世矿工，t0101是代码中默认的矿工，网络启动就有算力
+#### 5. 初始化并启动第一个创世矿工，t0101是代码中默认的矿工，网络启动就有拥有2k的算力
 初始化矿工：
 ```
 env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus-storage-miner init --genesis-miner --actor=t0101 --pre-sealed-sectors=/home/fy/work/node/local-lotus/storage1 --nosync=true --sector-size=1024
@@ -95,22 +96,22 @@ PoSt Submissions:
 	Deadline: Epoch 459 (in 21 blocks, ~10m 30s)
 Sectors:  map[Proving:2 Total:2]
 ```
+
+#### 6. 创建第二个矿工
 创建一个bls类型地址：
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus-storage-miner wallet new bls
 t3qmkputiskghjga4jw7vyuwxvwjq4xzdspqs2q7muddzn27bakstanpbgyeipwfarvj4btbe2e6mqhc5jm5fq
 ```
-给刚创建的地址转账：
+给刚创建的地址转账，这个地址是矿工id绑定的地址，地址里需要有一部分的余额做矿工抵押：
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus send t3qmkputiskghjga4jw7vyuwxvwjq4xzdspqs2q7muddzn27bakstanpbgyeipwfarvj4btbe2e6mqhc5jm5fq 10000
 ```
-#### 6. 创建第二个矿工
-
 创建并初始化一个新矿工：
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus-storage-miner init --create-worker-key=true  --sector-size=1024 --pre-sealed-sectors=/home/fy/work/node/local-lotus/storage2 --nosync
 ```
-查看矿工列表：
+查看矿工列表，新增的那个矿工id既是我们刚刚创建的矿工：
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus-storage-miner state list-miners
 ```
@@ -146,15 +147,15 @@ Sectors:  map[Total:0]
 添加一个文件（文件必须大于256字节,小于初始化时设置的扇区大小）:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client import ./hello.txt
-bafkreifragqmiyh5qxh23iqra552xf54j5f4zlocjw5uqqhfo4llcdckqa
+bafkreifragqmiyh5qxh23iqra552xf54j5f4zlocjw5uqqhfo4llcdckqa  #生成的文件cid
 ```
 向某个矿工询价，在这里我们要往t01002矿工存储数据:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client query-ask t01002
 Ask: t01002
 Price per GiB: 0.0000000005
-
 ```
+
 发起一笔存储交易:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus1 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner1 ./lotus client deal bafkreifragqmiyh5qxh23iqra552xf54j5f4zlocjw5uqqhfo4llcdckqa t01002 0.000005 300
@@ -195,7 +196,7 @@ Sectors:  map[Packing:0 Proving:1 Total:1]
 ```
 封包速度跟机器配置相关。
 
-* 矿工接收到客户端发送过来的数据包之后调用lotus*-seal-worker的api立即进行封包操作，完成封包之后进行 committing sector（提交打包好的扇区) 
+* 矿工接收到客户端发送过来的数据包之后调用lotus-seal-worker的api立即进行封包操作，完成封包之后进行 committing sector（提交打包好的扇区) 
     
 * 运行时空证明(running PoSts)
     
@@ -203,14 +204,14 @@ Sectors:  map[Packing:0 Proving:1 Total:1]
     
 * 上链成功，返回上链区块高度("height": 618)
     
-* 当扇区密封并成功上链之后矿工获得算力就可以参与出块*
+* 当扇区密封并成功上链之后矿工获得算力就可以参与出块
 
 #### 9. 检索数据
 通过cid查找数据在哪里存，及大小等信息:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus client find bafyreibddlukjniptmsxmre7ygnqqu6em6uisdreywyilg2ev2diej34aq
 ```
-找回数据:
+找回数据，将数据回写到文件:
 ```
 $ env LOTUS_PATH=/home/fy/work/node/local-lotus/lotus2 LOTUS_STORAGE_PATH=/home/fy/work/node/local-lotus/miner2 ./lotus client retrieve bafkreifgxbfutlcrbfnwpk5gx6o5of4mpleqvbkt5thphvbnsg6mnasp3q back.tx
 ```
